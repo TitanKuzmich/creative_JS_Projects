@@ -1,0 +1,32 @@
+.contacts{
+  height: 100vh !important;
+  padding-bottom: 0;
+
+  &-text{
+    font-size: 56px;
+    line-height: 68px;
+    margin-top: 48px;
+
+    &.no-mrg{
+      margin: 0;
+    }
+  }
+
+  &-links-wrapper{
+    width: 100%;
+    max-width: 230px;
+  }
+
+  &-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 48px;
+  }
+
+  .copyrights{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+  }
+}

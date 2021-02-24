@@ -1,0 +1,55 @@
+.header {
+  height: 100vh !important;
+
+  &-content{
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+
+    &-text{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &-title{
+    font-size: 96px;
+    line-height: 117px;
+    margin-bottom: 51px;
+    position: relative;
+
+    &:before {
+      content: "";
+      @include underline-link();
+      background-color: $colorBlack;
+      transform: scaleX(0);
+    }
+
+    &:hover:before {
+      content: "";
+      @include underline-link();
+      background-color: $colorBlack;
+      transform: scaleX(1);
+    }
+  }
+
+  .ph{
+    align-self: flex-start;
+  }
+
+  .sn{
+    align-self: center;
+  }
+
+  .fn{
+    align-self: flex-end;
+  }
+
+  &-content-btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

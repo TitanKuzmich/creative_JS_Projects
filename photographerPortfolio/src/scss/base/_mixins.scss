@@ -1,0 +1,17 @@
+@mixin mediaMax($maxW) {
+  @media all and (max-width: #{$maxW}px){
+    @content
+  }
+}
+
+@mixin underline-link {
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  display: block;
+  width: 100%;
+  height: 2px;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.2, 1, 0.4, 1);
+  transform-origin: 0 0;
+}

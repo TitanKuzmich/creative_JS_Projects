@@ -1,0 +1,36 @@
+//colors and mixins
+@import "base/variables";
+@import "base/mixins";
+
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font-family: Montserrat;
+  font-weight: 300;
+  box-sizing: border-box;
+}
+
+.container{
+  height: 100vh;
+  max-width: 1366px;
+  position: relative;
+  padding: 40px 0;
+  margin: 0 auto;
+}
+
+.add-margin{
+  display: block;
+  height: 60px;
+}
+
+//main style
+@import "blocks/navigation";
+@import "blocks/header";
+@import "blocks/worksSection";
+@import "blocks/tariffs";
+@import "blocks/contacts";
+@import "blocks/modal";
+
+//components
+@import "base/componenets";

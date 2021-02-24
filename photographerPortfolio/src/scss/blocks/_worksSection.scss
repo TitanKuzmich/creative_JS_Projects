@@ -1,0 +1,23 @@
+.black-white, .color{
+  .container{
+    height: unset;
+  }
+
+   .work-wrapper{
+     display: flex;
+     flex-wrap: wrap;
+     align-items: center;
+
+     .work{
+       width: 31%;
+       height: 390px;
+       margin-right: 40px;
+       margin-top: 40px;
+       background-color: #c4c4c4;
+
+       &:nth-child(3n){
+         margin-right: 0;
+       }
+     }
+   }
+}
