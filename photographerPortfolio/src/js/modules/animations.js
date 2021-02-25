@@ -33,11 +33,10 @@ const scrollToTopShow = gsap.timeline({
 
 export const headerAnim = () => {
 
+    const tl = gsap.timeline();
 
     ScrollTrigger.matchMedia({
         "(min-width: 768px)": function () {
-            const tl = gsap.timeline();
-
             tl
                 .fadeUp(".header-title", {
                     duration: .5,
@@ -62,6 +61,50 @@ export const headerAnim = () => {
                     ease: "power1",
                     stagger: .15
                 },"-=.3")
+        }
+    })
+
+    ScrollTrigger.matchMedia({
+        "(max-width: 768px)": function () {
+            tl
+                .fadeUp(".header-title", {
+                    duration: .5,
+                    stagger: .2,
+                    delay: .3
+                })
+                .fadeUp(".btn-header", {
+                    duration: .3,
+                    stagger: .2,
+                    delay: .3
+                }, 0)
+                .from(".menu-wrapper", {
+                    y: -50,
+                    opacity: 0,
+                    duration: .5,
+                    ease: "power1"
+                }, "-=.4")
+                .from(".animate-icon--menu", {
+                    y: -50,
+                    opacity: 0,
+                    duration: .5,
+                    ease: "power1",
+                    stagger: .15
+                },"-=.3")
+
+            const  showAnim = gsap.from(".menu-wrapper", {
+                    yPercent: -100,
+                    paused: true,
+                    duration: 0.3,
+                }).progress(1);
+
+            ScrollTrigger.create({
+                trigger: 'html',
+                start: "top top",
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    self.direction === -1 ? showAnim.play() : showAnim.reverse()
+                }
+            });
         }
     })
 }

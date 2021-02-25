@@ -15819,9 +15819,9 @@ const scrollToTopShow = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline({
   }
 });
 const headerAnim = () => {
+  const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
   gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].matchMedia({
     "(min-width: 768px)": function () {
-      const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
       tl.fadeUp(".header-title", {
         duration: .5,
         stagger: .2,
@@ -15842,6 +15842,43 @@ const headerAnim = () => {
         ease: "power1",
         stagger: .15
       }, "-=.3");
+    }
+  });
+  gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].matchMedia({
+    "(max-width: 768px)": function () {
+      tl.fadeUp(".header-title", {
+        duration: .5,
+        stagger: .2,
+        delay: .3
+      }).fadeUp(".btn-header", {
+        duration: .3,
+        stagger: .2,
+        delay: .3
+      }, 0).from(".menu-wrapper", {
+        y: -50,
+        opacity: 0,
+        duration: .5,
+        ease: "power1"
+      }, "-=.4").from(".animate-icon--menu", {
+        y: -50,
+        opacity: 0,
+        duration: .5,
+        ease: "power1",
+        stagger: .15
+      }, "-=.3");
+      const showAnim = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].from(".menu-wrapper", {
+        yPercent: -100,
+        paused: true,
+        duration: 0.3
+      }).progress(1);
+      gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].create({
+        trigger: 'html',
+        start: "top top",
+        end: 'bottom bottom',
+        onUpdate: self => {
+          self.direction === -1 ? showAnim.play() : showAnim.reverse();
+        }
+      });
     }
   });
 };
