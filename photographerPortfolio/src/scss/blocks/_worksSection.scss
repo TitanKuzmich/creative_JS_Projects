@@ -17,7 +17,50 @@
 
        &:nth-child(3n){
          margin-right: 0;
+
+         @include mediaMax(1000){
+           margin-right: 30px;
+         }
        }
+
+       &:nth-child(2n){
+         @include mediaMax(1000){
+           margin-right: 0;
+         }
+       }
+
+       @include mediaMax(1499){
+         width: 30%;
+       }
+
+       @include mediaMax(1280){
+         width: calc(30% + 5px);
+         margin-right: 30px;
+         margin-top: 30px;
+         height: 350px;
+       }
+
+       @include mediaMax(1000){
+         width: 44%;
+       }
+
+       @include mediaMax(768){
+         width: 368px;
+         height: 400px;
+         margin-right: 0;
+
+         &:nth-child(3n){
+           margin-right: 0;
+         }
+
+         &:nth-child(2n){
+           margin-right: 0;
+         }
+       }
+     }
+
+     @include mediaMax(768){
+       justify-content: center;
      }
    }
 }

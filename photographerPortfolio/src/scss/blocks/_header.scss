@@ -1,5 +1,5 @@
 .header {
-  height: 100vh !important;
+  height: 100vh;
 
   &-content{
     height: 90vh;
@@ -10,6 +10,14 @@
     &-text{
       display: flex;
       flex-direction: column;
+
+      @include mediaMax(768){
+        padding-top: 30%;
+      }
+
+      @include mediaMax(480){
+        padding-top: 7%;
+      }
     }
   }
 
@@ -32,6 +40,18 @@
       background-color: $colorBlack;
       transform: scaleX(1);
     }
+
+    @include mediaMax(768){
+      font-size: 72px;
+      line-height: 88px;
+    }
+
+    @include mediaMax(480){
+      font-size: 48px;
+      line-height: 59px;
+      margin-bottom: 0;
+      margin-top: 51px;
+    }
   }
 
   .ph{
@@ -46,10 +66,29 @@
     align-self: flex-end;
   }
 
+  .ph, .sn, .fn {
+    @include mediaMax(768){
+      align-self: center;
+    }
+  }
+
   &-content-btns {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @include mediaMax(480){
+      flex-direction: column;
+
+      .btn-header{
+        margin-top: 5%;
+      }
+    }
+  }
+
+  @include mediaMax(768){
+    height: unset;
+    min-height: 100vh;
   }
 }

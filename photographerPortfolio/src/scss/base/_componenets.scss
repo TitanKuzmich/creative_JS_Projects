@@ -12,6 +12,28 @@
   grid-template-rows: 1fr 1fr;
   justify-items: end;
   border-left: 1px solid $colorBlack;
+
+  @include mediaMax(1280){
+    right: calc(17% - 150px);
+  }
+
+  @include mediaMax(1000){
+    right: calc(21% - 150px);
+  }
+
+  @include mediaMax(768){
+    right: 50%;
+    transform: translateX(50%) translateY(0);
+    top: 0;
+    height: 60px;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: none;
+    border-bottom: 1px solid $colorBlack;
+    background-color: $colorWhite;
+  }
 }
 
 //HAMBURGER
@@ -40,6 +62,10 @@
     &.inline-icon{
       display: inline-block;
       margin-top: 0;
+
+      @include mediaMax(768){
+        margin-top: 10px;
+      }
     }
   }
 
@@ -63,10 +89,10 @@
 
     .scrollToTopWrapper{
       position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 107%;
-      height: 280px;
+      bottom: -4px;
+      right: -4px;
+      width: 115%;
+      height: 282px;
       background-color: $colorWhite;
       z-index: 5;
       transform: scaleY(0);
@@ -80,6 +106,16 @@
         align-items: center;
         cursor: pointer;
       }
+
+      @include mediaMax(768){
+        display: none;
+      }
+    }
+
+    &--header{
+      @include mediaMax(768){
+        display: none;
+      }
     }
   }
 }
@@ -89,6 +125,11 @@
 .section-content-wrapper{
   width: 85%;
   min-height: 90vh;
+
+  @include mediaMax(768){
+    width: 100%;
+    min-height: 80vh;
+  }
 }
 
 //ANIMATED WRAPPER FOR ICONS AND MENU
@@ -163,9 +204,27 @@
     }
   }
 
+  @include mediaMax(1000){
+     font-size: 27px;
+  }
+
   &--small{
     padding: 12px 16px;
     font-size: 26px;
+
+    @include mediaMax(1280){
+      font-size: 18px;
+    }
+
+    @include mediaMax(1000){
+      padding: 9px 13px;
+      font-size: 16px;
+    }
+
+    @include mediaMax(768){
+      padding: 10px 14px;
+      font-size: 18px;
+    }
   }
 }
 
@@ -174,8 +233,20 @@
   font-size: 96px;
   line-height: 117px;
 
-  &--white{
-    color: $colorWhite;
+  @include mediaMax(1000){
+    font-size: 70px;
+    line-height: 85px;
+  }
+
+  @include mediaMax(768){
+    font-size: 51px;
+    line-height: 60px;
+    text-align: center;
+  }
+
+  @include mediaMax(480){
+    font-size: 34px;
+    line-height: 41px;
   }
 }
 
@@ -184,4 +255,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include mediaMax(768){
+    flex-direction: column;
+  }
 }

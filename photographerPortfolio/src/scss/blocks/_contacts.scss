@@ -1,5 +1,5 @@
 .contacts{
-  height: 100vh !important;
+  height: 100vh;
   padding-bottom: 0;
 
   &-text{
@@ -9,6 +9,40 @@
 
     &.no-mrg{
       margin: 0;
+
+      @include mediaMax(1000){
+        margin-top: 24px;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+    }
+
+    @include mediaMax(1499){
+      margin-top: 30px;
+    }
+
+    @include mediaMax(1366){
+      font-size: 50px;
+    }
+
+    @include mediaMax(1280){
+      font-size: 40px;
+      line-height: unset;
+      margin-top: 38px;
+    }
+
+    @include mediaMax(1000){
+      font-size: 30px;
+    }
+
+    @include mediaMax(768){
+      font-size: 26px;
+      text-align: center;
+    }
+
+    @include mediaMax(480){
+      font-size: 20px;
+      margin-top: 20px;
     }
   }
 
@@ -22,11 +56,40 @@
     align-items: center;
     justify-content: space-around;
     margin-top: 48px;
+
+    @include mediaMax(1280){
+      margin-top: 38px;
+    }
+
+    @include mediaMax(1000){
+      flex-direction: column;
+      justify-content: center;
+      display: inline-block;
+    }
+
+    @include mediaMax(768){
+      display: flex;
+    }
+
+    @include mediaMax(480){
+      .btn-call-modal{
+        font-size: 22px;
+      }
+    }
   }
 
   .copyrights{
     position: absolute;
     bottom: 10px;
     left: 0;
+
+    @include mediaMax(480){
+      font-size: 14px;
+    }
+  }
+
+  @include mediaMax(768){
+    height: unset;
+    min-height: 100vh;
   }
 }

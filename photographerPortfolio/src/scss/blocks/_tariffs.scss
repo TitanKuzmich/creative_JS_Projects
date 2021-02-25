@@ -11,6 +11,14 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+
+    @include mediaMax(1280){
+      justify-content: space-between;
+    }
+
+    @include mediaMax(768){
+      justify-content: center;
+    }
   }
 
   &-front, &-back{
@@ -29,6 +37,22 @@
     grid-template-rows: auto 1fr auto;
     align-items: center;
     justify-items: center;
+
+    @include mediaMax(1000){
+      padding: 25px 10px;
+    }
+
+    @include mediaMax(768){
+      padding: 30px 30px;
+    }
+
+    @include mediaMax(480){
+      padding: 25px 15px;
+
+      .btn--more{
+        margin-top: 15px;
+      }
+    }
   }
 
   &-back{
@@ -56,6 +80,16 @@
       background-color: $colorBlack;
       transform: scaleX(1);
     }
+
+    @include mediaMax(1000){
+      font-size: 57px;
+      line-height: 70px;
+    }
+
+    @include mediaMax(480){
+      font-size: 40px;
+      line-height: 46px;
+    }
   }
 
   &-price{
@@ -65,6 +99,17 @@
     display: block;
     font-weight: 500;
     text-align: center;
+
+    @include mediaMax(1000){
+      font-size: 36px;
+      line-height: 40px;
+    }
+
+    @include mediaMax(480){
+      font-size: 30px;
+      line-height: 30px;
+      width: unset;
+    }
   }
 
   &-text{
@@ -77,10 +122,20 @@
     &>div:not(:last-child){
       margin-bottom: 10px;
     }
+
+    @include mediaMax(1000){
+      font-size: 19px;
+      padding-right: 12px;
+    }
+
+    @include mediaMax(480){
+      font-size: 16px;
+      padding-right: 12px;
+    }
   }
 
   &-item{
-    width: 40%;
+    width: 45%;
     height: 470px;
     margin-top: 40px;
     margin-right: 40px;
@@ -91,6 +146,28 @@
 
     &:nth-child(2n){
       margin-right: 0;
+    }
+
+    @include mediaMax(1000){
+      width: 48%;
+      height: 400px;
+      margin-top: 20px;
+      margin-right: 20px;
+    }
+
+    @include mediaMax(768){
+      width: 368px;
+      height: 400px;
+      margin-top: 35px;
+      margin-right: 0;
+
+      &:first-child{
+        margin-top: 20px;
+      }
+    }
+
+    @include mediaMax(480){
+      height: 368px;
     }
   }
 }

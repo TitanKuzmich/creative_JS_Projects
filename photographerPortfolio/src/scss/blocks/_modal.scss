@@ -17,6 +17,10 @@
     font-size: 28px;
     max-width: 340px;
     text-align: center;
+
+    @include mediaMax(1280){
+      margin-top: 15px;
+    }
   }
 
   &-content{
@@ -93,6 +97,10 @@
           color: darkred;
         }
       }
+    }
+
+    @include mediaMax(480){
+      max-width: 302px;
     }
   }
 

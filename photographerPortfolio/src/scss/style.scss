@@ -12,11 +12,35 @@
 }
 
 .container{
-  height: 100vh;
+  min-height: 100vh;
   max-width: 1366px;
   position: relative;
   padding: 40px 0;
   margin: 0 auto;
+
+  @include mediaMax(1499){
+    max-width: 1300px;
+  }
+
+  @include mediaMax(1366){
+    max-width: 1200px;
+  }
+
+  @include mediaMax(1280){
+    max-width: 960px;
+  }
+
+  @include mediaMax(1000){
+    max-width: 728px;
+  }
+
+  @include mediaMax(768){
+    max-width: 440px;
+  }
+
+  @include mediaMax(480){
+    max-width: 280px;
+  }
 }
 
 .add-margin{

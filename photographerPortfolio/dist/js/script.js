@@ -15819,27 +15819,31 @@ const scrollToTopShow = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline({
   }
 });
 const headerAnim = () => {
-  const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
-  tl.fadeUp(".header-title", {
-    duration: .5,
-    stagger: .2,
-    delay: .3
-  }).fadeUp(".btn-header", {
-    duration: .3,
-    stagger: .2,
-    delay: .3
-  }, 0).from(".menu-wrapper", {
-    x: 100,
-    opacity: 0,
-    duration: .5,
-    ease: "power1"
-  }, "-=.4").from(".animate-icon--menu", {
-    x: 100,
-    opacity: 0,
-    duration: .5,
-    ease: "power1",
-    stagger: .15
-  }, "-=.3");
+  gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].matchMedia({
+    "(min-width: 768px)": function () {
+      const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
+      tl.fadeUp(".header-title", {
+        duration: .5,
+        stagger: .2,
+        delay: .3
+      }).fadeUp(".btn-header", {
+        duration: .3,
+        stagger: .2,
+        delay: .3
+      }, 0).from(".menu-wrapper", {
+        x: 100,
+        opacity: 0,
+        duration: .5,
+        ease: "power1"
+      }, "-=.4").from(".animate-icon--menu", {
+        x: 100,
+        opacity: 0,
+        duration: .5,
+        ease: "power1",
+        stagger: .15
+      }, "-=.3");
+    }
+  });
 };
 const navigationAnim = () => {
   const burger = document.querySelector(".hamburger"),
