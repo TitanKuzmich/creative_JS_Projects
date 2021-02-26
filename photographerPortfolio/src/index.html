@@ -327,12 +327,21 @@
         <div class="modal-content">
             <div class="modal-close">&times;</div>
             <div class="modal-title">Буду рада связаться с Вами!</div>
-            <form action="POST" class="form">
-                <div class="input-wrapper"><input type="text" placeholder="Имя *" name="name" class="form-input"></div>
-                <div class="input-wrapper"><input type="text" placeholder="Email *" name="email" class="form-input"></div>
-                <div class="input-wrapper"><input type="text" placeholder="Номер телефона" name="phone" class="form-input"></div>
+            <form action="#" method="POST" class="form">
+                <div class="input-wrapper">
+                    <input type="text" placeholder="Имя *" required name="name" class="form-input">
+                    <div class="error-msg"></div>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" placeholder="Email *" required name="email" class="form-input">
+                    <div class="error-msg"></div>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" placeholder="Номер телефона" name="phone" class="form-input">
+                    <div class="error-msg"></div>
+                </div>
 
-                <a href="#" class="btn btn--small">Отправить</a>
+                <button class="btn btn--small">Отправить</button>
             </form>
         </div>
     </div>

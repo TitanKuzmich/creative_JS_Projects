@@ -1,5 +1,19 @@
+import {sendData} from "./service/sendData";
+import {validateFormData} from "./service/validationHelper";
+
+import rules from "./service/validationRules";
+
 const forms = () => {
-    const form = document.querySelectorAll('form');
+    const form = document.querySelectorAll('form'),
+        inputs = document.querySelectorAll('input');
+
+    const api = "mailer/smart.php";
+
+    const clearInputs = () => {
+        inputs.forEach(item => {
+            item.value = '';
+        });
+    };
 
     const message = {
         loading: 'Загрузка...',
@@ -10,83 +24,121 @@ const forms = () => {
         fail: 'assets/img/fail.png'
     };
 
-    function validateForms(form) {
-        $(form).validate({
-            rules: {
-                name: "required",
-                phone: {
-                    required: true,
-                    minlength: 18
-                },
-                email: {
-                    required: true,
-                    email: true,
-                    minlength: 5
-                }
-            },
-            messages:{
-                name: "Пожалуйста, введите свое имя",
-                phone: {
-                    required: "Пожалуйста, введите номер телефона",
-                    minlength: "Номер должен состоять из 11 цифр"
-                },
-                email:{
-                    required: "Пожалуйста, введите свою почту",
-                    email: "Неправильно введен адрес почты",
-                    minlength: "Адрес должен быть не менее, чем из 5-ти символов"
-                }
-            },
-            submitHandler: function () {
-                form.forEach(item => {
-                    item.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        console.log(item);
-                        let statusMessage = document.createElement('div');
-                        statusMessage.classList.add('status');
-                        item.parentNode.appendChild(statusMessage);
+    function submitHandler () {
+        form.forEach(item => {
+            item.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formInputs = item.querySelectorAll(".form-input");
+                let data = {};
 
-                        let statusImg = document.createElement('img');
-                        let textMessage = document.createElement('div');
+                formInputs.forEach(input => {
+                    data[input.getAttribute("name")] = `${input.value}`;
+                })
 
-                        item.classList.add('animated', 'fadeOutUp');
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, 400);
+                let validation = {};
 
-                        $.ajax({
-                            type: "POST",
-                            url: "mailer/smart.php",
-                            data: $(item).serialize(),
-                            beforeSend: () => {
+                const setInputsError = (validation) => {
+                    inputs.forEach(input => {
+                        if(!Object.keys(validation.errors).length){
+                            input.nextElementSibling.innerHTML = "";
+                        }
 
-                                statusImg.setAttribute('src', message.spinner);
-                                statusImg.classList.add('animated', 'fadeInUp');
-                                statusMessage.appendChild(statusImg);
-
-                                textMessage.textContent = message.loading;
-                                statusMessage.appendChild(textMessage);
-                            },
-                            error: () => {
-                                statusImg.setAttribute('src', message.fail);
-                                textMessage.textContent = message.failure;
-                            },
-                            success: () => {
-                                statusImg.setAttribute('src', message.ok);
-                                textMessage.textContent = message.success;
+                        Object.keys(validation.errors).forEach(errorCategory => {
+                            if(input.getAttribute("name") === errorCategory){
+                                input.nextElementSibling.innerHTML = `${validation.errors[errorCategory]}`
                             }
-                        }).done(function () {
-                            $(item).find("input").val("");
-                            $(item).trigger('reset');
-                        });
+                        })
+                    })
+                }
 
-                        return false;
-                    });
-                });
-            }
+                const afterFirstSubmitValidation = () => {
+                    formInputs.forEach(input => {
+                        data[input.getAttribute("name")] = `${input.value}`;
+                    })
+
+                    validation = validateFormData(data, rules);
+
+                    setInputsError(validation);
+                }
+
+                afterFirstSubmitValidation();
+
+                if (!Object.keys(validation.errors).length){
+                    console.log("everything is ok)")
+                    clearInputs();
+
+                    // sendData(api, formData)
+                    //     .then(res => {
+                    //         console.log(res);
+                    //         // statusImg.setAttribute('src', message.ok);
+                    //         // textMessage.textContent = message.success;
+                    //     })
+                    //     .catch(() => {
+                    //         // statusImg.setAttribute('src', message.fail);
+                    //         // textMessage.textContent = message.failure;
+                    //     })
+                    //     .finally(() => {
+                    //         clearInputs();
+                    //         // setTimeout(() => {
+                    //         //     statusMessage.remove();
+                    //         //     item.style.display = 'block';
+                    //         //     item.classList.remove('fadeOutUp');
+                    //         //     item.classList.add('fadeInUp');
+                    //         // }, 5000);
+                    //     });
+                } else {
+                    inputs.forEach(input => {
+                        input.removeEventListener("input", afterFirstSubmitValidation);
+                    })
+
+
+                    inputs.forEach(input => {
+                        input.addEventListener("input", afterFirstSubmitValidation);
+                    })
+                }
+
+                // let statusMessage = document.createElement('div');
+                // statusMessage.classList.add('status');
+                // item.parentNode.appendChild(statusMessage);
+                //
+                // let statusImg = document.createElement('img');
+                // let textMessage = document.createElement('div');
+                //
+                // item.classList.add('animated', 'fadeOutUp');
+                // setTimeout(() => {
+                //     item.style.display = 'none';
+                // }, 400);
+
+                // $.ajax({
+                //     type: "POST",
+                //     url: "mailer/smart.php",
+                //     data: $(item).serialize(),
+                //     beforeSend: () => {
+                //
+                //         statusImg.setAttribute('src', message.spinner);
+                //         statusImg.classList.add('animated', 'fadeInUp');
+                //         statusMessage.appendChild(statusImg);
+                //
+                //         textMessage.textContent = message.loading;
+                //         statusMessage.appendChild(textMessage);
+                //     },
+                //     error: () => {
+                //         statusImg.setAttribute('src', message.fail);
+                //         textMessage.textContent = message.failure;
+                //     },
+                //     success: () => {
+                //         statusImg.setAttribute('src', message.ok);
+                //         textMessage.textContent = message.success;
+                //     }
+                // }).done(function () {
+                //     $(item).find("input").val("");
+                //     $(item).trigger('reset');
+                // });
+            });
         });
     }
 
-    validateForms(form);
+    submitHandler();
 }
 
 export default forms;

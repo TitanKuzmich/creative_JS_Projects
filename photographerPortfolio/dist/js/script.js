@@ -15746,7 +15746,9 @@ module.exports = g;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
-/* harmony import */ var _modules_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/animations */ "./src/js/modules/animations.js");
+/* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/form */ "./src/js/modules/form.js");
+/* harmony import */ var _modules_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/animations */ "./src/js/modules/animations.js");
+
 
 
 
@@ -15755,14 +15757,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_modules_mask__WEBPACK_IMPORTED_MODULE_1__["default"])('[name="phone"]');
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["headerAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["navigationAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["sectionScrollAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["sectionsTitleAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["contentInSectionsAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["flipCardAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["contactsAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_2__["scrollToContacts"])();
+  Object(_modules_form__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["headerAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["navigationAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["sectionScrollAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["sectionsTitleAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["contentInSectionsAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["flipCardAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["contactsAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["scrollToContacts"])();
 });
 
 /***/ }),
@@ -16117,6 +16120,153 @@ const contactsAnim = () => {
 
 /***/ }),
 
+/***/ "./src/js/modules/form.js":
+/*!********************************!*\
+  !*** ./src/js/modules/form.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _service_sendData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./service/sendData */ "./src/js/modules/service/sendData.js");
+/* harmony import */ var _service_validationHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./service/validationHelper */ "./src/js/modules/service/validationHelper.js");
+/* harmony import */ var _service_validationRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service/validationRules */ "./src/js/modules/service/validationRules.js");
+
+
+
+
+const forms = () => {
+  const form = document.querySelectorAll('form'),
+        inputs = document.querySelectorAll('input');
+  const api = "mailer/smart.php";
+
+  const clearInputs = () => {
+    inputs.forEach(item => {
+      item.value = '';
+    });
+  };
+
+  const message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так...',
+    spinner: 'assets/img/spinner.gif',
+    ok: 'assets/img/ok.png',
+    fail: 'assets/img/fail.png'
+  };
+
+  function submitHandler() {
+    form.forEach(item => {
+      item.addEventListener('submit', e => {
+        e.preventDefault();
+        const formInputs = item.querySelectorAll(".form-input");
+        let data = {};
+        formInputs.forEach(input => {
+          data[input.getAttribute("name")] = `${input.value}`;
+        });
+        let validation = {};
+
+        const setInputsError = validation => {
+          inputs.forEach(input => {
+            if (!Object.keys(validation.errors).length) {
+              input.nextElementSibling.innerHTML = "";
+            }
+
+            Object.keys(validation.errors).forEach(errorCategory => {
+              if (input.getAttribute("name") === errorCategory) {
+                input.nextElementSibling.innerHTML = `${validation.errors[errorCategory]}`;
+              }
+            });
+          });
+        };
+
+        const afterFirstSubmitValidation = () => {
+          formInputs.forEach(input => {
+            data[input.getAttribute("name")] = `${input.value}`;
+          });
+          validation = Object(_service_validationHelper__WEBPACK_IMPORTED_MODULE_1__["validateFormData"])(data, _service_validationRules__WEBPACK_IMPORTED_MODULE_2__["default"]);
+          setInputsError(validation);
+        };
+
+        afterFirstSubmitValidation();
+
+        if (!Object.keys(validation.errors).length) {
+          console.log("everything is ok)");
+          clearInputs(); // sendData(api, formData)
+          //     .then(res => {
+          //         console.log(res);
+          //         // statusImg.setAttribute('src', message.ok);
+          //         // textMessage.textContent = message.success;
+          //     })
+          //     .catch(() => {
+          //         // statusImg.setAttribute('src', message.fail);
+          //         // textMessage.textContent = message.failure;
+          //     })
+          //     .finally(() => {
+          //         clearInputs();
+          //         // setTimeout(() => {
+          //         //     statusMessage.remove();
+          //         //     item.style.display = 'block';
+          //         //     item.classList.remove('fadeOutUp');
+          //         //     item.classList.add('fadeInUp');
+          //         // }, 5000);
+          //     });
+        } else {
+          inputs.forEach(input => {
+            input.removeEventListener("input", afterFirstSubmitValidation);
+          });
+          inputs.forEach(input => {
+            input.addEventListener("input", afterFirstSubmitValidation);
+          });
+        } // let statusMessage = document.createElement('div');
+        // statusMessage.classList.add('status');
+        // item.parentNode.appendChild(statusMessage);
+        //
+        // let statusImg = document.createElement('img');
+        // let textMessage = document.createElement('div');
+        //
+        // item.classList.add('animated', 'fadeOutUp');
+        // setTimeout(() => {
+        //     item.style.display = 'none';
+        // }, 400);
+        // $.ajax({
+        //     type: "POST",
+        //     url: "mailer/smart.php",
+        //     data: $(item).serialize(),
+        //     beforeSend: () => {
+        //
+        //         statusImg.setAttribute('src', message.spinner);
+        //         statusImg.classList.add('animated', 'fadeInUp');
+        //         statusMessage.appendChild(statusImg);
+        //
+        //         textMessage.textContent = message.loading;
+        //         statusMessage.appendChild(textMessage);
+        //     },
+        //     error: () => {
+        //         statusImg.setAttribute('src', message.fail);
+        //         textMessage.textContent = message.failure;
+        //     },
+        //     success: () => {
+        //         statusImg.setAttribute('src', message.ok);
+        //         textMessage.textContent = message.success;
+        //     }
+        // }).done(function () {
+        //     $(item).find("input").val("");
+        //     $(item).trigger('reset');
+        // });
+
+      });
+    });
+  }
+
+  submitHandler();
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (forms);
+
+/***/ }),
+
 /***/ "./src/js/modules/mask.js":
 /*!********************************!*\
   !*** ./src/js/modules/mask.js ***!
@@ -16267,6 +16417,125 @@ const modals = () => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/service/sendData.js":
+/*!********************************************!*\
+  !*** ./src/js/modules/service/sendData.js ***!
+  \********************************************/
+/*! exports provided: sendData, getResource */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendData", function() { return sendData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getResource", function() { return getResource; });
+const sendData = async (url, data) => {
+  let res = await fetch(url, {
+    method: "POST",
+    body: data
+  });
+  return await res.text();
+};
+
+const getResource = async url => {
+  let res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch $(url), status: $(res.status)`);
+  }
+
+  return await res.json();
+};
+
+
+
+/***/ }),
+
+/***/ "./src/js/modules/service/validationHelper.js":
+/*!****************************************************!*\
+  !*** ./src/js/modules/service/validationHelper.js ***!
+  \****************************************************/
+/*! exports provided: validateFormData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateFormData", function() { return validateFormData; });
+const validateFormData = (data, rules) => {
+  const errorsData = {};
+  Object.keys(rules).forEach(key => {
+    let errorMessage = ""; // Empty field validation
+
+    if (rules[key].required && !data[key]) {
+      errorMessage = rules[key].required && typeof rules[key].required === "string" ? rules[key].required : "Заполните пожалуйста это поле";
+    } // Min validation
+
+
+    const minValue = rules[key].min ? rules[key].min.value : 0;
+
+    if (!errorMessage && data[key].toString().length < minValue) {
+      errorMessage = rules[key].min.message;
+    } // RegExp field validation
+
+
+    if (!errorMessage && rules[key].validation && rules[key].validation.reg) {
+      const condition = new RegExp(rules[key].validation.reg || "", "g");
+
+      if (!condition.test(data[key].toString())) {
+        errorMessage = rules[key].validation && typeof rules[key].validation.message === "string" ? rules[key].validation.message : "Некорректно введены данные";
+      }
+    } // Field equal other
+
+
+    if (!errorMessage && rules[key].equal) {
+      const otherFieldName = rules[key].equal.field || "";
+
+      if (data[key] !== data[otherFieldName]) {
+        errorMessage = rules[key].equal.message ? rules[key].equal.message : `${key} не совпадает с полем ${otherFieldName}`;
+        errorsData[otherFieldName] = errorMessage;
+      }
+    }
+
+    if (errorMessage) {
+      errorsData[key] = errorMessage;
+    }
+  });
+  return {
+    errors: errorsData,
+    isValid: !Object.keys(errorsData).length
+  };
+};
+
+/***/ }),
+
+/***/ "./src/js/modules/service/validationRules.js":
+/*!***************************************************!*\
+  !*** ./src/js/modules/service/validationRules.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const rules = {
+  name: {
+    required: true,
+    min: {
+      value: 2,
+      message: "Длина имени должна быть больше 2"
+    }
+  },
+  email: {
+    required: true,
+    validation: {
+      reg: "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$",
+      message: "Некорректный email"
+    }
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (rules);
 
 /***/ })
 

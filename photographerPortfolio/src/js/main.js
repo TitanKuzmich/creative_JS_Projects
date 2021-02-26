@@ -1,5 +1,6 @@
 import modals from "./modules/modals";
 import mask from "./modules/mask";
+import forms from "./modules/form";
 
 import {
     headerAnim,
@@ -17,6 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modals();
     mask('[name="phone"]');
+    forms();
 
     headerAnim();
     navigationAnim();

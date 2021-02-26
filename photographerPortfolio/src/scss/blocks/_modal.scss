@@ -45,6 +45,9 @@
 
       .input-wrapper {
         position: relative;
+        height: 60px;
+        display: flex;
+        align-items: flex-end;
 
         .form-input {
           border: none;
@@ -53,8 +56,8 @@
           font-weight: 300;
           font-size: 18px;
           line-height: 29px;
+          height: 76%;
           width: 100%;
-          height: 60px;
           border-bottom: 2px rgba($colorBlack, .9) solid;
           color: $colorBlack !important;
 
@@ -78,7 +81,7 @@
             color: rgba($colorBlack, .5);
           }
 
-          &.formInputError {
+          &.form-input--error {
             border-color: #ae4945;
             color: #ae4945;
             -webkit-text-fill-color: #ae4945 !important;
@@ -89,7 +92,7 @@
           }
         }
 
-        .errorMsg {
+        .error-msg {
           position: absolute;
           right: 0;
           top: 0;
