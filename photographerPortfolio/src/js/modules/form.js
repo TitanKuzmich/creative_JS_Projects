@@ -7,7 +7,7 @@ const forms = () => {
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input');
 
-    const api = "mailer/smart.php";
+    const api = "./mailer/smart.php";
 
     const clearInputs = () => {
         inputs.forEach(item => {
@@ -65,27 +65,27 @@ const forms = () => {
 
                 if (!Object.keys(validation.errors).length){
                     console.log("everything is ok)")
-                    clearInputs();
 
-                    // sendData(api, formData)
-                    //     .then(res => {
-                    //         console.log(res);
-                    //         // statusImg.setAttribute('src', message.ok);
-                    //         // textMessage.textContent = message.success;
-                    //     })
-                    //     .catch(() => {
-                    //         // statusImg.setAttribute('src', message.fail);
-                    //         // textMessage.textContent = message.failure;
-                    //     })
-                    //     .finally(() => {
-                    //         clearInputs();
-                    //         // setTimeout(() => {
-                    //         //     statusMessage.remove();
-                    //         //     item.style.display = 'block';
-                    //         //     item.classList.remove('fadeOutUp');
-                    //         //     item.classList.add('fadeInUp');
-                    //         // }, 5000);
-                    //     });
+                    sendData(api, data)
+                        .then(res => {
+                            console.log(res);
+                            // statusImg.setAttribute('src', message.ok);
+                            // textMessage.textContent = message.success;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            // statusImg.setAttribute('src', message.fail);
+                            // textMessage.textContent = message.failure;
+                        })
+                        .finally(() => {
+                            clearInputs();
+                            // setTimeout(() => {
+                            //     statusMessage.remove();
+                            //     item.style.display = 'block';
+                            //     item.classList.remove('fadeOutUp');
+                            //     item.classList.add('fadeInUp');
+                            // }, 5000);
+                        });
                 } else {
                     inputs.forEach(input => {
                         input.removeEventListener("input", afterFirstSubmitValidation);

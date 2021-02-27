@@ -16139,7 +16139,7 @@ __webpack_require__.r(__webpack_exports__);
 const forms = () => {
   const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input');
-  const api = "mailer/smart.php";
+  const api = "./mailer/smart.php";
 
   const clearInputs = () => {
     inputs.forEach(item => {
@@ -16193,25 +16193,20 @@ const forms = () => {
 
         if (!Object.keys(validation.errors).length) {
           console.log("everything is ok)");
-          clearInputs(); // sendData(api, formData)
-          //     .then(res => {
-          //         console.log(res);
-          //         // statusImg.setAttribute('src', message.ok);
-          //         // textMessage.textContent = message.success;
-          //     })
-          //     .catch(() => {
-          //         // statusImg.setAttribute('src', message.fail);
-          //         // textMessage.textContent = message.failure;
-          //     })
-          //     .finally(() => {
-          //         clearInputs();
-          //         // setTimeout(() => {
-          //         //     statusMessage.remove();
-          //         //     item.style.display = 'block';
-          //         //     item.classList.remove('fadeOutUp');
-          //         //     item.classList.add('fadeInUp');
-          //         // }, 5000);
-          //     });
+          Object(_service_sendData__WEBPACK_IMPORTED_MODULE_0__["sendData"])(api, data).then(res => {
+            console.log(res); // statusImg.setAttribute('src', message.ok);
+            // textMessage.textContent = message.success;
+          }).catch(error => {
+            console.log(error); // statusImg.setAttribute('src', message.fail);
+            // textMessage.textContent = message.failure;
+          }).finally(() => {
+            clearInputs(); // setTimeout(() => {
+            //     statusMessage.remove();
+            //     item.style.display = 'block';
+            //     item.classList.remove('fadeOutUp');
+            //     item.classList.add('fadeInUp');
+            // }, 5000);
+          });
         } else {
           inputs.forEach(input => {
             input.removeEventListener("input", afterFirstSubmitValidation);
@@ -16424,29 +16419,18 @@ const modals = () => {
 /*!********************************************!*\
   !*** ./src/js/modules/service/sendData.js ***!
   \********************************************/
-/*! exports provided: sendData, getResource */
+/*! exports provided: sendData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendData", function() { return sendData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getResource", function() { return getResource; });
 const sendData = async (url, data) => {
   let res = await fetch(url, {
     method: "POST",
     body: data
   });
   return await res.text();
-};
-
-const getResource = async url => {
-  let res = await fetch(url);
-
-  if (!res.ok) {
-    throw new Error(`Could not fetch $(url), status: $(res.status)`);
-  }
-
-  return await res.json();
 };
 
 
