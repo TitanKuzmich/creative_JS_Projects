@@ -7,7 +7,7 @@ const forms = () => {
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input');
 
-    const api = "./mailer/smart.php";
+    const api = "./tgMailer/send-message-to-telegram.php";
 
     const clearInputs = () => {
         inputs.forEach(item => {
