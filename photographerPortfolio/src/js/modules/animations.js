@@ -1,4 +1,4 @@
-import { gsap } from "gsap";
+import {gsap} from "gsap";
 import {ScrollTrigger, ScrollToPlugin} from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -25,11 +25,31 @@ const sections = document.querySelectorAll(".section");
 
 const scrollToTopShow = gsap.timeline({
     paused: true,
-    scrollTrigger:{
+    scrollTrigger: {
         trigger: "#contacts",
         start: "85% bottom"
     }
 })
+
+// export const loaderTl = (state = "play") => {
+//     const tl = gsap.timeline({paused: true})
+//     tl
+//         .to(".req-process", {
+//             left: 0,
+//             duration: 0.01,
+//         })
+//         .to(".req-process", {
+//             ease: "power1",
+//             opacity: 1,
+//             duration: 0.2
+//         })
+//
+//     if (state === "play") {
+//         tl.play();
+//     } else {
+//         tl.reverse();
+//     }
+// }
 
 export const headerAnim = () => {
 
@@ -60,7 +80,7 @@ export const headerAnim = () => {
                     duration: .5,
                     ease: "power1",
                     stagger: .15
-                },"-=.3")
+                }, "-=.3")
         }
     })
 
@@ -89,13 +109,13 @@ export const headerAnim = () => {
                     duration: .5,
                     ease: "power1",
                     stagger: .15
-                },"-=.3")
+                }, "-=.3")
 
-            const  showAnim = gsap.from(".menu-wrapper", {
-                    yPercent: -100,
-                    paused: true,
-                    duration: 0.3,
-                }).progress(1);
+            const showAnim = gsap.from(".menu-wrapper", {
+                yPercent: -100,
+                paused: true,
+                duration: 0.3,
+            }).progress(1);
 
             ScrollTrigger.create({
                 trigger: 'html',
@@ -153,7 +173,6 @@ export const navigationAnim = () => {
         }, .4)
 
 
-
     scrollToTopShow
         .to(".scrollToTopWrapper", {
             duration: .7,
@@ -185,9 +204,9 @@ export const navigationAnim = () => {
     })
 
     burger.addEventListener("click", () => {
-        if(reversed) {
+        if (reversed) {
             navTl.reverse(.8)
-            if((document.documentElement.scrollTop + window.innerHeight) > (document.body.scrollHeight - 100
+            if ((document.documentElement.scrollTop + window.innerHeight) > (document.body.scrollHeight - 100
                 || document.documentElement.scrollHeight - 100
                 || document.body.offsetHeight - 100
                 || document.documentElement.offsetHeight - 100
@@ -196,11 +215,11 @@ export const navigationAnim = () => {
             }
         } else {
             navTl.play();
-            if((document.documentElement.scrollTop + window.innerHeight) > (document.body.scrollHeight - 100
-            || document.documentElement.scrollHeight - 100
-            || document.body.offsetHeight - 100
-            || document.documentElement.offsetHeight - 100
-            || document.body.clientHeight - 100)) {
+            if ((document.documentElement.scrollTop + window.innerHeight) > (document.body.scrollHeight - 100
+                || document.documentElement.scrollHeight - 100
+                || document.body.offsetHeight - 100
+                || document.documentElement.offsetHeight - 100
+                || document.body.clientHeight - 100)) {
                 scrollToTopShow.reverse(1.2);
             }
         }
@@ -264,22 +283,18 @@ export const contentInSectionsAnim = () => {
             }
         });
 
-        if(i % 3 === 0){
+        if (i % 3 === 0) {
             tl.fadeUp(work, {
                 y: 60,
                 duration: .5,
             })
-        }
-
-        else if(i%3 === 1){
+        } else if (i % 3 === 1) {
             tl.fadeUp(work, {
                 y: 60,
                 duration: .5,
                 delay: .25
             })
-        }
-
-        else if(i%3 === 2){
+        } else if (i % 3 === 2) {
             tl.fadeUp(work, {
                 y: 60,
                 duration: .5,
@@ -319,10 +334,10 @@ export const flipCardAnim = () => {
         const tl = gsap.timeline({paused: true, reversed: false});
 
         tl
-            .to(card.querySelector(".tariffs-front"),{
+            .to(card.querySelector(".tariffs-front"), {
                 rotationY: "-180deg"
             })
-            .to(card.querySelector(".tariffs-back"),{
+            .to(card.querySelector(".tariffs-back"), {
                 rotationY: 0
             }, 0);
 
@@ -381,7 +396,7 @@ export const contactsAnim = () => {
         .call(() => needReverseScroll = true)
 
     window.addEventListener("scroll", () => {
-        if(needReverseScroll && ((contacts.offsetTop - window.innerHeight) > (window.scrollY || window.pageYOffset)) && !scrollToTopShow.reversed()){
+        if (needReverseScroll && ((contacts.offsetTop - window.innerHeight) > (window.scrollY || window.pageYOffset)) && !scrollToTopShow.reversed()) {
             scrollToTopShow.reverse(1.2)
         }
 

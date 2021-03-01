@@ -327,7 +327,7 @@
         <div class="modal-content">
             <div class="modal-close">&times;</div>
             <div class="modal-title">Буду рада связаться с Вами!</div>
-            <form action="#" method="POST" class="form">
+            <form action="tgMailer/send-message-to-telegram.php" method="POST" class="form" enctype="multipart/form-data">
                 <div class="input-wrapper">
                     <input type="text" placeholder="Имя *" required name="name" class="form-input">
                     <div class="error-msg"></div>
@@ -337,12 +337,21 @@
                     <div class="error-msg"></div>
                 </div>
                 <div class="input-wrapper">
-                    <input type="text" placeholder="Номер телефона" name="phone" class="form-input">
+                    <input type="text" placeholder="Номер телефона" name="phone" class="form-input" minlength="18">
                     <div class="error-msg"></div>
                 </div>
 
                 <button class="btn btn--small">Отправить</button>
             </form>
+        </div>
+    </div>
+
+    <div class="req-process">
+        <div class="modal-content req-wrapper">
+            <img src="assets/img/spinner.gif" alt="loader" class="req-result spinner">
+            <img src="assets/img/ok.png" alt="loader" class="req-result ok">
+            <img src="assets/img/fail.png" alt="loader" class="req-result fail">
+            <div class="req-text"></div>
         </div>
     </div>
 </body>

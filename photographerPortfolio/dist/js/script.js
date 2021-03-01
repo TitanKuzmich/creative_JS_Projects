@@ -15820,7 +15820,26 @@ const scrollToTopShow = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline({
     trigger: "#contacts",
     start: "85% bottom"
   }
-});
+}); // export const loaderTl = (state = "play") => {
+//     const tl = gsap.timeline({paused: true})
+//     tl
+//         .to(".req-process", {
+//             left: 0,
+//             duration: 0.01,
+//         })
+//         .to(".req-process", {
+//             ease: "power1",
+//             opacity: 1,
+//             duration: 0.2
+//         })
+//
+//     if (state === "play") {
+//         tl.play();
+//     } else {
+//         tl.reverse();
+//     }
+// }
+
 const headerAnim = () => {
   const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
   gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].matchMedia({
@@ -16132,28 +16151,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_sendData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./service/sendData */ "./src/js/modules/service/sendData.js");
 /* harmony import */ var _service_validationHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./service/validationHelper */ "./src/js/modules/service/validationHelper.js");
 /* harmony import */ var _service_validationRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service/validationRules */ "./src/js/modules/service/validationRules.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
 
 
 
 
 const forms = () => {
   const form = document.querySelectorAll('form'),
-        inputs = document.querySelectorAll('input');
+        inputs = document.querySelectorAll('input'),
+        reqLoad = document.querySelector('.spinner'),
+        reqOk = document.querySelector('.ok'),
+        reqFail = document.querySelector('.fail'),
+        reqText = document.querySelector('.req-text'),
+        close = document.querySelector(".modal-close");
   const api = "./tgMailer/send-message-to-telegram.php";
 
   const clearInputs = () => {
     inputs.forEach(item => {
       item.value = '';
     });
-  };
-
-  const message = {
-    loading: 'Загрузка...',
-    success: 'Спасибо! Скоро мы с вами свяжемся',
-    failure: 'Что-то пошло не так...',
-    spinner: 'assets/img/spinner.gif',
-    ok: 'assets/img/ok.png',
-    fail: 'assets/img/fail.png'
   };
 
   function submitHandler() {
@@ -16192,20 +16209,45 @@ const forms = () => {
         afterFirstSubmitValidation();
 
         if (!Object.keys(validation.errors).length) {
-          console.log("everything is ok)");
-          Object(_service_sendData__WEBPACK_IMPORTED_MODULE_0__["sendData"])(api, data).then(res => {
-            console.log(res); // statusImg.setAttribute('src', message.ok);
-            // textMessage.textContent = message.success;
+          const tl = gsap__WEBPACK_IMPORTED_MODULE_3__["gsap"].timeline({
+            paused: true,
+            defaults: {
+              delay: 3
+            }
+          });
+          tl.to(".req-process", {
+            left: 0,
+            duration: 0.01,
+            delay: 0
+          }).to(".req-process", {
+            ease: "power1",
+            opacity: 1,
+            duration: 0.2,
+            delay: 0
+          });
+          reqText.innerHTML = "Подождите немножко)";
+          reqLoad.style.display = "block";
+          tl.play();
+          Object(_service_sendData__WEBPACK_IMPORTED_MODULE_0__["sendData"])(api, item).then(res => {
+            reqText.innerHTML = "Заявка отправлена успешно!)";
+            reqLoad.style.display = "none";
+            reqOk.style.display = "block";
           }).catch(error => {
-            console.log(error); // statusImg.setAttribute('src', message.fail);
-            // textMessage.textContent = message.failure;
+            reqLoad.style.display = "none";
+            reqFail.style.display = "block";
+            reqText.innerHTML = "Что-то пошло не так... Перезагрузите страничку";
           }).finally(() => {
-            clearInputs(); // setTimeout(() => {
-            //     statusMessage.remove();
-            //     item.style.display = 'block';
-            //     item.classList.remove('fadeOutUp');
-            //     item.classList.add('fadeInUp');
-            // }, 5000);
+            setTimeout(() => {
+              tl.reverse();
+            }, 3200);
+            setTimeout(() => {
+              reqLoad.style.display = "block";
+              reqOk.style.display = "none";
+              reqFail.style.display = "none";
+              reqText.innerHTML = "";
+              clearInputs();
+              close.click();
+            }, 3300);
           });
         } else {
           inputs.forEach(input => {
@@ -16214,43 +16256,7 @@ const forms = () => {
           inputs.forEach(input => {
             input.addEventListener("input", afterFirstSubmitValidation);
           });
-        } // let statusMessage = document.createElement('div');
-        // statusMessage.classList.add('status');
-        // item.parentNode.appendChild(statusMessage);
-        //
-        // let statusImg = document.createElement('img');
-        // let textMessage = document.createElement('div');
-        //
-        // item.classList.add('animated', 'fadeOutUp');
-        // setTimeout(() => {
-        //     item.style.display = 'none';
-        // }, 400);
-        // $.ajax({
-        //     type: "POST",
-        //     url: "mailer/smart.php",
-        //     data: $(item).serialize(),
-        //     beforeSend: () => {
-        //
-        //         statusImg.setAttribute('src', message.spinner);
-        //         statusImg.classList.add('animated', 'fadeInUp');
-        //         statusMessage.appendChild(statusImg);
-        //
-        //         textMessage.textContent = message.loading;
-        //         statusMessage.appendChild(textMessage);
-        //     },
-        //     error: () => {
-        //         statusImg.setAttribute('src', message.fail);
-        //         textMessage.textContent = message.failure;
-        //     },
-        //     success: () => {
-        //         statusImg.setAttribute('src', message.ok);
-        //         textMessage.textContent = message.success;
-        //     }
-        // }).done(function () {
-        //     $(item).find("input").val("");
-        //     $(item).trigger('reset');
-        // });
-
+        }
       });
     });
   }
@@ -16425,12 +16431,13 @@ const modals = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendData", function() { return sendData; });
-const sendData = async (url, data) => {
+const sendData = async (url, item) => {
+  const formData = new FormData(item);
   let res = await fetch(url, {
     method: "POST",
-    body: data
+    body: formData
   });
-  return await res.text();
+  return await res.json();
 };
 
 

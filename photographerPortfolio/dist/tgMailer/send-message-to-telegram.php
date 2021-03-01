@@ -55,24 +55,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (isset($_POST['name'])) {
           if (!empty($_POST['name'])){
-            $name = "Имя того, кого нельзя называть: " . strip_tags($_POST['name']) . "%0A";
-          }
-        }
-
-        if (isset($_POST['phone'])) {
-          if (!empty($_POST['phone'])){
-            $phone = "Телефон того, кого нельзя называть: " . "%2B" . strip_tags($_POST['phone']) . "%0A";
+            $name = "Имечко: " . strip_tags($_POST['name']) . "%0A";
           }
         }
 
         if (isset($_POST['email'])) {
           if (!empty($_POST['email'])){
-            $email = "Тема: " .strip_tags($_POST['email']);
+            $email = "Почта: " .strip_tags($_POST['email']) . "%0A";
+          }
+        }
+
+        if (isset($_POST['phone'])) {
+          if (!empty($_POST['phone'])){
+            $phone = "Телефончик: " . "%2B" . strip_tags($_POST['phone']) . "%0A";
           }
         }
 
         // Формируем текст сообщения
-        $txt = $name. $email . $phone ;
+        $txt = $name. $email. $phone ;
 
         $sendTextToTelegram = file_get_contents("https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_id}&parse_mode=html&text={$txt}");
         if ($output && $sendTextToTelegram) {
@@ -92,6 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($msgs);;
     }
 } else {
-  header ("Location: /");
+//   header ("Location: /");
 }
 ?>
