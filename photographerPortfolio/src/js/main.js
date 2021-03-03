@@ -1,3 +1,4 @@
+import lazyload from "lazyload"
 import modals from "./modules/modals";
 import mask from "./modules/mask";
 import forms from "./modules/form";
@@ -16,6 +17,7 @@ import {
 window.addEventListener('DOMContentLoaded', () => {
     "use strict";
 
+    let lazy = new lazyload();
     modals();
     mask('[name="phone"]');
     forms();

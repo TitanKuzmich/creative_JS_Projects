@@ -1,4 +1,5 @@
 .black-white, .color{
+  min-height: 100vh;
   .container{
     height: unset;
   }
@@ -10,10 +11,14 @@
 
      .work{
        width: 31%;
-       height: 390px;
+       height: 490px;
        margin-right: 40px;
        margin-top: 40px;
-       background-color: #c4c4c4;
+
+       .lazyload{
+         width: 100%;
+         height: 100%;
+       }
 
        &:nth-child(3n){
          margin-right: 0;
@@ -46,7 +51,7 @@
 
        @include mediaMax(768){
          width: 368px;
-         height: 400px;
+         height: 450px;
          margin-right: 0;
 
          &:nth-child(3n){

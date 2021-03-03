@@ -31,26 +31,6 @@ const scrollToTopShow = gsap.timeline({
     }
 })
 
-// export const loaderTl = (state = "play") => {
-//     const tl = gsap.timeline({paused: true})
-//     tl
-//         .to(".req-process", {
-//             left: 0,
-//             duration: 0.01,
-//         })
-//         .to(".req-process", {
-//             ease: "power1",
-//             opacity: 1,
-//             duration: 0.2
-//         })
-//
-//     if (state === "play") {
-//         tl.play();
-//     } else {
-//         tl.reverse();
-//     }
-// }
-
 export const headerAnim = () => {
 
     const tl = gsap.timeline();
@@ -68,6 +48,11 @@ export const headerAnim = () => {
                     stagger: .2,
                     delay: .3
                 }, 0)
+                .fadeUp(".header-text", {
+                    duration: .3,
+                    stagger: .2,
+                    delay: .3
+                }, 0.35)
                 .from(".menu-wrapper", {
                     x: 100,
                     opacity: 0,
@@ -97,6 +82,11 @@ export const headerAnim = () => {
                     stagger: .2,
                     delay: .3
                 }, 0)
+                .fadeUp(".header-text", {
+                    duration: .3,
+                    stagger: .2,
+                    delay: .3
+                }, 0.35)
                 .from(".menu-wrapper", {
                     y: -50,
                     opacity: 0,

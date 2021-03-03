@@ -21,7 +21,7 @@ gulp.task("copy-html", () => {
 
 gulp.task('styles', () => {
     return gulp.src("./src/scss/**/*.+(scss|sass)")
-        .pipe(sass().on('error', sass.logError))        //для минификации css добавить в sass({outputStyle: 'compressed'})
+        .pipe(sass().on('error', sass.logError))           //для минификации css добавить в sass({outputStyle: 'compressed'})
         .pipe(rename({suffix: '.min', prefix: ''}))   //добавление .min к расширению файла
         .pipe(autoprefixer())
         .pipe(cleanCSS({compatibility: 'ie8'}))

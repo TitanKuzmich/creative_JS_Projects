@@ -15704,6 +15704,194 @@ function emojiSafeSplit(text, delimiter, trim) {
 
 /***/ }),
 
+/***/ "./node_modules/lazyload/lazyload.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lazyload/lazyload.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * Lazy Load - JavaScript plugin for lazy loading images
+ *
+ * Copyright (c) 2007-2019 Mika Tuupola
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ * Project home:
+ *   https://appelsiini.net/projects/lazyload
+ *
+ * Version: 2.0.0-rc.2
+ *
+ */
+
+(function (root, factory) {
+    if (true) {
+        module.exports = factory(root);
+    } else {}
+}) (typeof global !== "undefined" ? global : this.window || this.global, function (root) {
+
+    "use strict";
+
+    if (true){
+        root = window;
+    }
+
+    const defaults = {
+        src: "data-src",
+        srcset: "data-srcset",
+        selector: ".lazyload",
+        root: null,
+        rootMargin: "0px",
+        threshold: 0
+    };
+
+    /**
+    * Merge two or more objects. Returns a new object.
+    * @private
+    * @param {Boolean}  deep     If true, do a deep (or recursive) merge [optional]
+    * @param {Object}   objects  The objects to merge together
+    * @returns {Object}          Merged values of defaults and options
+    */
+    const extend = function ()  {
+
+        let extended = {};
+        let deep = false;
+        let i = 0;
+        let length = arguments.length;
+
+        /* Check if a deep merge */
+        if (Object.prototype.toString.call(arguments[0]) === "[object Boolean]") {
+            deep = arguments[0];
+            i++;
+        }
+
+        /* Merge the object into the extended object */
+        let merge = function (obj) {
+            for (let prop in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+                    /* If deep merge and property is an object, merge properties */
+                    if (deep && Object.prototype.toString.call(obj[prop]) === "[object Object]") {
+                        extended[prop] = extend(true, extended[prop], obj[prop]);
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+
+        /* Loop through each object and conduct a merge */
+        for (; i < length; i++) {
+            let obj = arguments[i];
+            merge(obj);
+        }
+
+        return extended;
+    };
+
+    function LazyLoad(images, options) {
+        this.settings = extend(defaults, options || {});
+        this.images = images || document.querySelectorAll(this.settings.selector);
+        this.observer = null;
+        this.init();
+    }
+
+    LazyLoad.prototype = {
+        init: function() {
+
+            /* Without observers load everything and bail out early. */
+            if (!root.IntersectionObserver) {
+                this.loadImages();
+                return;
+            }
+
+            let self = this;
+            let observerConfig = {
+                root: this.settings.root,
+                rootMargin: this.settings.rootMargin,
+                threshold: [this.settings.threshold]
+            };
+
+            this.observer = new IntersectionObserver(function(entries) {
+                Array.prototype.forEach.call(entries, function (entry) {
+                    if (entry.isIntersecting) {
+                        self.observer.unobserve(entry.target);
+                        let src = entry.target.getAttribute(self.settings.src);
+                        let srcset = entry.target.getAttribute(self.settings.srcset);
+                        if ("img" === entry.target.tagName.toLowerCase()) {
+                            if (src) {
+                                entry.target.src = src;
+                            }
+                            if (srcset) {
+                                entry.target.srcset = srcset;
+                            }
+                        } else {
+                            entry.target.style.backgroundImage = "url(" + src + ")";
+                        }
+                    }
+                });
+            }, observerConfig);
+
+            Array.prototype.forEach.call(this.images, function (image) {
+                self.observer.observe(image);
+            });
+        },
+
+        loadAndDestroy: function () {
+            if (!this.settings) { return; }
+            this.loadImages();
+            this.destroy();
+        },
+
+        loadImages: function () {
+            if (!this.settings) { return; }
+
+            let self = this;
+            Array.prototype.forEach.call(this.images, function (image) {
+                let src = image.getAttribute(self.settings.src);
+                let srcset = image.getAttribute(self.settings.srcset);
+                if ("img" === image.tagName.toLowerCase()) {
+                    if (src) {
+                        image.src = src;
+                    }
+                    if (srcset) {
+                        image.srcset = srcset;
+                    }
+                } else {
+                    image.style.backgroundImage = "url('" + src + "')";
+                }
+            });
+        },
+
+        destroy: function () {
+            if (!this.settings) { return; }
+            this.observer.disconnect();
+            this.settings = null;
+        }
+    };
+
+    root.lazyload = function(images, options) {
+        return new LazyLoad(images, options);
+    };
+
+    if (root.jQuery) {
+        const $ = root.jQuery;
+        $.fn.lazyload = function (options) {
+            options = options || {};
+            options.attribute = options.attribute || "data-src";
+            new LazyLoad($.makeArray(this), options);
+            return this;
+        };
+    }
+
+    return LazyLoad;
+});
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack-stream/node_modules/webpack/buildin/global.js */ "./node_modules/webpack-stream/node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/webpack-stream/node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -15744,10 +15932,13 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
-/* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
-/* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/form */ "./src/js/modules/form.js");
-/* harmony import */ var _modules_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/animations */ "./src/js/modules/animations.js");
+/* harmony import */ var lazyload__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lazyload */ "./node_modules/lazyload/lazyload.js");
+/* harmony import */ var lazyload__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lazyload__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
+/* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
+/* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/form */ "./src/js/modules/form.js");
+/* harmony import */ var _modules_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/animations */ "./src/js/modules/animations.js");
+
 
 
 
@@ -15755,17 +15946,18 @@ __webpack_require__.r(__webpack_exports__);
 window.addEventListener('DOMContentLoaded', () => {
   "use strict";
 
-  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
-  Object(_modules_mask__WEBPACK_IMPORTED_MODULE_1__["default"])('[name="phone"]');
-  Object(_modules_form__WEBPACK_IMPORTED_MODULE_2__["default"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["headerAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["navigationAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["sectionScrollAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["sectionsTitleAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["contentInSectionsAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["flipCardAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["contactsAnim"])();
-  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_3__["scrollToContacts"])();
+  let lazy = new lazyload__WEBPACK_IMPORTED_MODULE_0___default.a();
+  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_mask__WEBPACK_IMPORTED_MODULE_2__["default"])('[name="phone"]');
+  Object(_modules_form__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["headerAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["navigationAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["sectionScrollAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["sectionsTitleAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["contentInSectionsAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["flipCardAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["contactsAnim"])();
+  Object(_modules_animations__WEBPACK_IMPORTED_MODULE_4__["scrollToContacts"])();
 });
 
 /***/ }),
@@ -15820,26 +16012,7 @@ const scrollToTopShow = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline({
     trigger: "#contacts",
     start: "85% bottom"
   }
-}); // export const loaderTl = (state = "play") => {
-//     const tl = gsap.timeline({paused: true})
-//     tl
-//         .to(".req-process", {
-//             left: 0,
-//             duration: 0.01,
-//         })
-//         .to(".req-process", {
-//             ease: "power1",
-//             opacity: 1,
-//             duration: 0.2
-//         })
-//
-//     if (state === "play") {
-//         tl.play();
-//     } else {
-//         tl.reverse();
-//     }
-// }
-
+});
 const headerAnim = () => {
   const tl = gsap__WEBPACK_IMPORTED_MODULE_0__["gsap"].timeline();
   gsap_all__WEBPACK_IMPORTED_MODULE_1__["ScrollTrigger"].matchMedia({
@@ -15852,7 +16025,11 @@ const headerAnim = () => {
         duration: .3,
         stagger: .2,
         delay: .3
-      }, 0).from(".menu-wrapper", {
+      }, 0).fadeUp(".header-text", {
+        duration: .3,
+        stagger: .2,
+        delay: .3
+      }, 0.35).from(".menu-wrapper", {
         x: 100,
         opacity: 0,
         duration: .5,
@@ -15876,7 +16053,11 @@ const headerAnim = () => {
         duration: .3,
         stagger: .2,
         delay: .3
-      }, 0).from(".menu-wrapper", {
+      }, 0).fadeUp(".header-text", {
+        duration: .3,
+        stagger: .2,
+        delay: .3
+      }, 0.35).from(".menu-wrapper", {
         y: -50,
         opacity: 0,
         duration: .5,
