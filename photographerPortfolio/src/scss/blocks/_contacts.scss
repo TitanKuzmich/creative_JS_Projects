@@ -78,14 +78,40 @@
     }
   }
 
-  .copyrights{
+  .copyrights, .privacy{
     position: absolute;
     bottom: 10px;
     left: 0;
 
-    @include mediaMax(480){
-      font-size: 14px;
+    &-link{
+      color: black;
+      text-decoration: none;
+      position: relative;
+
+      &:before {
+        content: "";
+        @include underline-link();
+        background-color: $colorBlack;
+        height: 1px;
+        transform: scaleX(0);
+      }
+
+      &:hover:before {
+        content: "";
+        @include underline-link();
+        background-color: $colorBlack;
+        height: 1px;
+        transform: scaleX(1);
+      }
+
+      @include mediaMax(480){
+        font-size: 14px;
+      }
     }
+  }
+
+  .copyrights {
+    bottom: 30px;
   }
 
   @include mediaMax(768){

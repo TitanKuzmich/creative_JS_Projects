@@ -13,7 +13,7 @@ const htmlmin = require('gulp-htmlmin');
 const dist = "./dist/";
 
 gulp.task("copy-html", () => {
-    return gulp.src("./src/index.html")
+    return gulp.src("./src/*.html")
                 .pipe(gulp.dest(dist))
                 .pipe(htmlmin({ collapseWhitespace: true })) //минифицировать html
                 .on("end", browsersync.reload);
